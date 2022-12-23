@@ -1,0 +1,36 @@
+useEffect:
+it is used for side effects
+e.g : if you dont want to render complete component, for a specific change in a funciton, you can use the useEffect.
+e.g : you can stop a specific change occur in a funciton after fullfilment of some condition.
+syntax: useEffect(()=>{function to be operate again},[dependencies])
+
+useReducer:
+it is used for state management
+if you update a state that depends on another state, then merging these state will be good idea and you can do it with use-Reducer.
+syntax: const [state, dispatchFn]=useReducer(reducerFn, intialState, initFn)
+dispatchFn: trigger an update of the state
+state:snapshot used in the component re-render
+reducerFn: (prevState,action)=> newState : This function automaticaaly triggered once an action is dispatched (via dispatchFn()) : The function will recive the latest snapshot and should return the new , updated state.
+initFn: A function to set the intial state programmatically
+
+React Context:
+it is used to send (value and function) declare in on componet to another component which required these values without processing through all the component .
+In case of props we follow a complete chain to send the value to the end component which utilize it, so this will send our data un-necessarly to all those components where its not required but they are in chain.
+
+ReactContext vs Props:
+we will use props for configuration
+Context for state management across components or possibly across the entire application
+
+Context Limition:
+it is only suitable for low frequency changes which occur sometime not every each second for that we will use redux
+
+Rules of Hooks:
+
+1. Only call React Hooks in React Functions
+   a. React ComponentFunctions
+   b. Custom Hooks (covered later!)
+2. Only call React Hooks at the Top Level
+   a. Don’t call them in nested functions
+   b. Don’t call them in any block statements
+
+3.Rule for useEffect(): ALWAYS add everything you refer to inside of useEffect() as a dependency
