@@ -7,9 +7,10 @@ import React, {
 } from 'react';
 
 import Card from '../UI/Card/Card';
-import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
+import AuthContext from '../../store/auth-context';
 import Input from '../UI/INPUT/Input';
+import classes from './Login.module.css';
 
 const emailReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
@@ -42,46 +43,55 @@ const Login = (props) => {
     value: '',
     isValid: null,
   });
-
   const [passwordState, dispatchPassword] = useReducer(passwordReducer, {
     value: '',
     isValid: null,
   });
-  const authCtx = useContext(AudioContext);
+
+  const authCtx = useContext(AuthContext);
+
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+
+  useEffect(() => {
+    console.log('EFFECT RUNNING');
+
+    return () => {
+      console.log('EFFECT CLEANUP');
+    };
+  }, []);
 
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
 
   useEffect(() => {
     const identifier = setTimeout(() => {
-      console.log('Checking form validity');
+      console.log('Checking form validity!');
       setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
-    return () => clearTimeout(identifier);
+
+    return () => {
+      console.log('CLEANUP');
+      clearTimeout(identifier);
+    };
   }, [emailIsValid, passwordIsValid]);
 
-  //Change handler function
   const emailChangeHandler = (event) => {
-    dispatchEmail({
-      type: 'USER_INPUT',
-      val: event.target.value,
-    });
-    // setFormIsValid(event.target.value.includes('@') && passwordState.isValid);
+    dispatchEmail({ type: 'USER_INPUT', val: event.target.value });
+
+    // setFormIsValid(
+    //   event.target.value.includes('@') && passwordState.isValid
+    // );
   };
 
   const passwordChangeHandler = (event) => {
     dispatchPassword({ type: 'USER_INPUT', val: event.target.value });
+
     // setFormIsValid(emailState.isValid && event.target.value.trim().length > 6);
   };
 
-  //Validator Function
   const validateEmailHandler = () => {
-    // setEmailIsValid(emailState.isvalid.includes('@'));
-    dispatchEmail({
-      type: 'INPUT_BLUR',
-    });
+    dispatchEmail({ type: 'INPUT_BLUR' });
   };
 
   const validatePasswordHandler = () => {
@@ -91,7 +101,7 @@ const Login = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (formIsValid) {
-      authCtx.login(emailState.value, passwordState.value);
+      authCtx.onLogin(emailState.value, passwordState.value);
     } else if (!emailIsValid) {
       emailInputRef.current.focus();
     } else {
@@ -105,7 +115,7 @@ const Login = (props) => {
         <Input
           ref={emailInputRef}
           id="email"
-          label="Email"
+          label="E-Mail"
           type="email"
           isValid={emailIsValid}
           value={emailState.value}

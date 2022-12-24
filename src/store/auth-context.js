@@ -8,15 +8,17 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     const storedUserLoggedInInformation = localStorage.getItem('isLoggedIn');
+
     if (storedUserLoggedInInformation === '1') {
       setIsLoggedIn(true);
     }
   }, []);
 
   const logoutHandler = () => {
-    localStorage.setItem('isLoggedIn', '0');
+    localStorage.removeItem('isLoggedIn');
     setIsLoggedIn(false);
   };
 
@@ -27,7 +29,7 @@ export const AuthContextProvider = (props) => {
 
   return (
     <AuthContext.Provider
-      vlaue={{
+      value={{
         isLoggedIn: isLoggedIn,
         onLogout: logoutHandler,
         onLogin: loginHandler,
