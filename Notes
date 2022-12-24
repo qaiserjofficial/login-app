@@ -34,3 +34,6 @@ Rules of Hooks:
    b. Don’t call them in any block statements
 
 3.Rule for useEffect(): ALWAYS add everything you refer to inside of useEffect() as a dependency
+
+useRef and forwardref:
+with useImperativehandle and forwardRef you can expose functionalities as well as values from a react component to its parent component to then use your component in the parent component through ref and trigger a certain functionallty.
